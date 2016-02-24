@@ -1,4 +1,5 @@
 import {compose, createStore, applyMiddleware } from 'redux';
+import { persistStore } from 'redux-persist'
 
 import rootReducer from '../reducers';
 import thunkMiddleware from 'redux-thunk';
@@ -14,6 +15,6 @@ const createAppStore = compose(
 
 export default function configureStore(initialState){
 	const store = createAppStore(rootReducer, initialState);
-
+  persistStore(store);
 	return store;
 };

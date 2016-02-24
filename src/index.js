@@ -10,6 +10,8 @@ import { reduxReactRouter, routerStateReducer, ReduxRouter } from 'redux-react-r
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import configureStore from './store';
 import App from './containers/App';
+import LoginContainer from './containers/loginContainer';
+import Dashboard from './containers/dashboard';
 import Countries from './components/Countries';
 import Error from './components/Error';
 import ExpectedError from './components/ExpectedError';
@@ -28,14 +30,20 @@ function loadBadData(){
 	store.dispatch(fetchData('https://restcountries.eu/rest/v1/callingcode/123123'));
 };
 
+function checkLogin(){
+	debugger
+};
+
 ReactDOM.render(
 	<Provider store={store}>
 		<ReduxRouter>
 			<Route history={history}>
 				<Route component={App}>
-					<Route path='/' component={Home} />
+					<Route path='/home' component={Home} />
 					<Route path='/countries' component={Countries} onEnter={loadData} />
 					<Route path='/othercountry' component={ExpectedError} onEnter={loadBadData} />
+					<Route path='/' component={LoginContainer} onEnter={checkLogin}/>
+					<Route path='/dashboard' component={Dashboard}/>
 					<Route path='/error' component={Error} />
 				</Route>
 			</Route>

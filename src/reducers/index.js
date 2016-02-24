@@ -1,13 +1,15 @@
 import * as types from '../actions/actionTypes';
 import { combineReducers } from 'redux'; //might need to remove
 import { routerStateReducer } from 'redux-react-router';
+import { REHYDRATE } from 'redux-persist/constants';
 
-
-function exampleReducer(state = {
+const initialState = {
 	isLoading: false,
 	data: [],
-	error: false}
-, action = null) {
+	error: false
+}
+
+function exampleReducer(state = initialState, action = null) {
 	switch(action.type) {
 		case types.RECV_ERROR:
 			return Object.assign({}, state, {isLoading: false, data: action.data, error: true});
@@ -15,6 +17,33 @@ function exampleReducer(state = {
 			return Object.assign({}, state, {isLoading: false, data: action.data, error: false });
 		case types.REQ_DATA:
 			return Object.assign({}, state, {isLoading: true, error: false });
+		case REHYDRATE:
+      var incoming = action.payload.example
+
+      if (incoming) {
+        return Object.assign({}, state, incoming);
+      }
+      return state
+		default:
+			return state;
+	}
+};
+
+function userReducer(state = { error: false, email: '', role: '', token: '' }, action = null) {
+	switch(action.type) {
+		case types.USER_RECV_ERROR:
+			return Object.assign({}, state, {error: true});
+
+		case types.SET_USER:
+			return Object.assign({}, state,  { error: false }, action.payload)
+
+		case REHYDRATE:
+      var incoming = action.payload.userStore
+
+      if (incoming) {
+        return Object.assign({}, state, incoming);
+      }
+      return state
 		default:
 			return state;
 	}
@@ -22,7 +51,8 @@ function exampleReducer(state = {
 
 const rootReducer = combineReducers({
 	router: routerStateReducer,
-	example: exampleReducer
+	example: exampleReducer,
+	userStore: userReducer
 });
 
 export default rootReducer;

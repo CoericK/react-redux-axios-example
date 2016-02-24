@@ -53,6 +53,7 @@
     "react-redux": "latest",
     "react-router": "latest",
     "redux": "latest",
+    "redux-persist": "^2.0.1",
     "redux-react-router": "latest",
     "redux-thunk": "latest"
   }

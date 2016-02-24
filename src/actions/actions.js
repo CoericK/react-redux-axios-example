@@ -21,7 +21,7 @@ function receiveError(json) {
 };
 
 export function fetchData(url) {
-	return function(dispatch) {
+	return dispatch => {
 		dispatch(requestData());
 		return axios({
 			url: url,
@@ -29,10 +29,10 @@ export function fetchData(url) {
 			method: 'get',
 			responseType: 'json'
 		})
-			.then(function(response) {
+			.then(response => {
 				dispatch(receiveData(response.data));
 			})
-			.catch(function(response){
+			.catch(response => {
 				dispatch(receiveError(response.data));
 				dispatch(pushState(null,'/error'));
 			})
